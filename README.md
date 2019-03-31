@@ -1,6 +1,6 @@
 # Windows 10 and Ubuntu on Windows Subsystem for Linux (WSL) Setup Guide for Microservice and Web App Developers
 
-Instructions to make Windows 10 with the [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/about) (WSL) setup fast and efficient for developing microservices in C# (.NET Core), Java, and NodeJS, and web front-ends in React. This guide uses Ubuntu 18.04 as the OS running within WSL.
+Instructions to make Windows 10 with the [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/about) (WSL) setup fast and efficient for developing web services in C# (.NET Core), Java, GoLang, and NodeJS, and web front-ends in React. This guide uses Ubuntu 18.04 as the OS running within WSL.
 
 ## Turn on Windows Subsystem for Linux
 
@@ -32,7 +32,7 @@ The [Windows 10 App Store](https://www.microsoft.com/en-us/p/ubuntu/9nblggh4msv6
 The first thing you should do is get the latest security updates:
 
 ```bash
-sudo apt update && sudo dist-upgrade -y
+sudo apt update && sudo apt dist-upgrade -y
 ```
 
 Next, install some common tools you'll need later:
@@ -91,7 +91,7 @@ sudo apt update && sudo apt install dotnet-sdk-2.2 -y
 rm -f packages-microsoft-prod.deb
 ```
 
-Run `dotnet --version` and look for `2.2.102` (or newer) to verify success
+Run `dotnet --version` and look for `2.2.105` (or newer) to verify success
 
 ### Optional: Disable .NET Core telemetry
 
@@ -135,7 +135,7 @@ sudo apt install docker-ce
 docker --version
 ```
 
-Running "docker --version" should display "Docker version 18.09.0, build 4d60db4" or similar.
+Running "docker --version" should display "Docker version 18.09.4, build d14af54266" or similar.
 
 Install Docker Compose:
 
@@ -153,7 +153,7 @@ Ensure you can run Docker commands without `sudo`:
 sudo usermod -aG docker $USER
 ```
 
-Following the above commands will install Docker in WSL, but again, the daemon will not start. Follow the instructions bbelow to create a bridge between Docker in WSL and Docker for Windows:
+Following the above commands will install Docker in WSL, but again, the daemon will not start. Follow the instructions below to create a bridge between Docker in WSL and Docker for Windows:
 
 1. Open the **Docker for Windows** app in Windows 10 and navigate to the **General** tab.
 1. Check the box that says **Expose daemon on tcp://localhost:2375 without TLS**. Docker for Windows will restart momentarily.
