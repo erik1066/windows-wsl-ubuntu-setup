@@ -140,12 +140,12 @@ Running "docker --version" should display "Docker version 18.09.4, build d14af54
 Install Docker Compose:
 
 ```bash
-sudo curl -L "https://github.com/docker/compose/releases/download/1.23.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo curl -L "https://github.com/docker/compose/releases/download/1.24.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
 docker-compose --version
 ```
 
-Running "docker-compose --version" should display "docker-compose version 1.23.2, build 1110ad01" or similar.
+Running "docker-compose --version" should display "docker-compose version 1.24.0, build 0aa59064" or similar.
 
 Ensure you can run Docker commands without `sudo`:
 
