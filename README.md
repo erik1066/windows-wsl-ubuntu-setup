@@ -68,6 +68,14 @@ make
 
 Users interact with WSL through the Windows 10 Command Prompt. To change the colors for the Command Prompt, left-click on the Ubuntu icon on the top-left corner of the WSL window and select **Properties** > **Colors**.
 
+## Access the C drive from Ubuntu
+
+Accessing Windows files from Ubuntu is possible by navigating to the C drive, which is listed in `mnt`:
+
+```bash
+cd /mnt/c
+```
+
 ## Java and Maven
 
 ```bash
@@ -92,7 +100,7 @@ curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
 sudo apt install nodejs
 ```
 
-Run `npm --version` and look for `6.5.0` (or newer) to verify success
+Run `npm --version` and look for `6.9.0` (or newer) to verify success
 
 ## .NET Core
 
@@ -105,7 +113,7 @@ sudo apt update && sudo apt install dotnet-sdk-2.2 -y
 rm -f packages-microsoft-prod.deb
 ```
 
-Run `dotnet --version` and look for `2.2.105` (or newer) to verify success
+Run `dotnet --version` and look for `2.2.202` (or newer) to verify success
 
 ### Optional: Disable .NET Core telemetry
 
