@@ -19,13 +19,27 @@ WSL is not enabled in Windows 10 by default. To enable it:
 
 The [Windows 10 App Store](https://www.microsoft.com/en-us/p/ubuntu/9nblggh4msv6) is the most straightforward way to install Ubuntu in WSL. Some organizations disallow use of the app store on their Windows machines, in which case you must install Ubuntu manually:
 
-1. After restarting your PC from the previous set of steps, visit https://docs.microsoft.com/en-us/windows/wsl/install-manual and select the Ubuntu 18.04 distro. A download will start.
-1. After the download is complete, run the file that was downloaded. An installer window will appear. NOTE: _Whatever directory you run the installer from is where WSL will be installed to. You cannot change this directory post-installation._
-1. Launch the installer. A Windows Command Prompt titled **Ubuntu** will appear with the text `Installing, this may take a few minutes...`
+1. After restarting your PC from the previous set of steps, visit https://docs.microsoft.com/en-us/windows/wsl/install-manual and select the Ubuntu 18.04 distro. Alternatively, you can download the Ubuntu 18.04 distro at https://aka.ms/wsl-ubuntu-1804.
+1. After the download is complete, run the `.appx` file that was downloaded. An installer window will appear. NOTE: _Whatever directory you run the installer from is where WSL will be installed to. You cannot change this directory post-installation._ 
+
+> If the `.appx` file appears un-runnable in Windows, see the "Manual Appx unpackaging and installation" portion of this guide. Otherwise, continue with step 3 below.
+
+3. Launch the installer. A Windows Command Prompt titled **Ubuntu** will appear with the text `Installing, this may take a few minutes...`
 1. After a short while, a prompt will appear asking for a UNIX username. Enter a name you will remember and press **Enter**.
 1. A prompt will appear asking for a UNIX password. Enter a strong password and press **Enter**.
 1. A prompt will appear asking for you to retype your password. Re-enter the same password you just typed in the previous step and press **Enter**. A Bash prompt appears with your username and machine name, e.g. `username@machinename:~$`
 1. Right-click on the Ubuntu app icon in your Windows taskbar and select **Pin to taskbar**.
+
+### Workaround: Manual Appx unpackaging and installation
+
+This section is only meant to work around a problem where Windows 10 doesn't recognize `.appx` files as executable, thus preventing readers from completing the steps outlined in the previous section.
+
+1. Change the extension on the Ubuntu file you downloaded from `.appx` to `.zip`.
+1. Open the `zip` file in Windows
+1. Elect to extract the contents of the `zip` file to somewhere on your computer. 
+1. Open the extracted files on your computer
+1. Find the installer `exe` file and run it. NOTE: _Whatever directory you run the installer from is where WSL will be installed to. You cannot change this directory post-installation._ 
+1. Resume step 4 from the previous section
 
 ## Update the OS and install common tools
 
