@@ -113,7 +113,7 @@ sudo apt update && sudo apt install dotnet-sdk-2.2 -y
 rm -f packages-microsoft-prod.deb
 ```
 
-Run `dotnet --version` and look for `2.2.202` (or newer) to verify success
+Run `dotnet --version` and look for `2.2.203` (or newer) to verify success
 
 ### Optional: Disable .NET Core telemetry
 
@@ -157,7 +157,7 @@ sudo apt install docker-ce
 docker --version
 ```
 
-Running "docker --version" should display "Docker version 18.09.4, build d14af54266" or similar.
+Running "docker --version" should display "Docker version 18.09.5, build e8ff056" or similar.
 
 Install Docker Compose:
 
