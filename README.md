@@ -92,6 +92,14 @@ sudo apt install golang-go
 
 Run `go version` and look for `go version go1.10.4 linux/amd64` (or newer) to verify success
 
+## Python 
+
+```bash
+sudo apt install python3-minimal
+```
+
+Run `python3 -V` and look for `Python 3.6.7` (or newer) to verify success
+
 ## NodeJS
 
 ```bash
