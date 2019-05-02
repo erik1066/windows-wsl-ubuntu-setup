@@ -110,6 +110,12 @@ sudo apt install nodejs
 
 Run `npm --version` and look for `6.9.0` (or newer) to verify success
 
+Periodically, you will want to update NPM to the latest available version. Do so by running:
+
+```bash
+sudo npm install -g npm
+```
+
 ## .NET Core
 
 ```bash
