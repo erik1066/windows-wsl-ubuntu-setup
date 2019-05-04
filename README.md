@@ -1,6 +1,6 @@
-# Windows 10 and Ubuntu on Windows Subsystem for Linux (WSL) Setup Guide for Microservice and Web App Developers
+# Windows 10 and Ubuntu on Windows Subsystem for Linux (WSL) Setup Guide for Web App Developers
 
-Instructions to make Windows 10 with the [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/about) (WSL) setup fast and efficient for developing web services in C# (.NET Core), Java, GoLang, and NodeJS, and web front-ends in React. This guide uses Ubuntu 18.04 as the OS running within WSL.
+Instructions to make Windows 10 with the [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/about) (WSL) setup fast and efficient for developing web apps in Go, C# (.NET Core), Java, Python, and NodeJS, and web front-ends in React. This guide uses Ubuntu 18.04 as the OS running within WSL.
 
 ## Turn on Windows Subsystem for Linux
 
