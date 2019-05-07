@@ -20,7 +20,7 @@ WSL is not enabled in Windows 10 by default. To enable it:
 The [Windows 10 App Store](https://www.microsoft.com/en-us/p/ubuntu/9nblggh4msv6) is the most straightforward way to install Ubuntu in WSL. Some organizations disallow use of the app store on their Windows machines, in which case you must install Ubuntu manually:
 
 1. After restarting your PC from the previous set of steps, visit https://docs.microsoft.com/en-us/windows/wsl/install-manual and select the Ubuntu 18.04 distro. Alternatively, you can download the Ubuntu 18.04 distro at https://aka.ms/wsl-ubuntu-1804.
-1. After the download is complete, run the `.appx` file that was downloaded. An installer window will appear. NOTE: _Whatever directory you run the installer from is where WSL will be installed to. You cannot change this directory post-installation._ 
+1. After the download is complete, run the `.appx` file that was downloaded. An installer window will appear. NOTE: _Whatever directory you run the installer from is where WSL will be installed to. You cannot change this directory post-installation._
 
 > If the `.appx` file appears un-runnable in Windows, see the "Manual Appx unpackaging and installation" portion of this guide. Otherwise, continue with step 3 below.
 
@@ -36,9 +36,9 @@ This section is only meant to work around a problem where Windows 10 doesn't rec
 
 1. Change the extension on the Ubuntu file you downloaded from `.appx` to `.zip`.
 1. Open the `zip` file in Windows
-1. Elect to extract the contents of the `zip` file to somewhere on your computer. 
+1. Elect to extract the contents of the `zip` file to somewhere on your computer.
 1. Open the extracted files on your computer
-1. Find the installer `exe` file and run it. NOTE: _Whatever directory you run the installer from is where WSL will be installed to. You cannot change this directory post-installation._ 
+1. Find the installer `exe` file and run it. NOTE: _Whatever directory you run the installer from is where WSL will be installed to. You cannot change this directory post-installation._
 1. Resume step 4 from the previous section
 
 ## Update the OS and install common tools
@@ -92,7 +92,7 @@ sudo apt install golang-go
 
 Run `go version` and look for `go version go1.10.4 linux/amd64` (or newer) to verify success
 
-## Python 
+## Python
 
 ```bash
 sudo apt install python3-minimal
@@ -171,7 +171,7 @@ sudo apt install docker-ce
 docker --version
 ```
 
-Running "docker --version" should display "Docker version 18.09.5, build e8ff056" or similar.
+Running "docker --version" should display "Docker version 18.09.6, build 481bc77" or similar.
 
 Install Docker Compose:
 
@@ -205,7 +205,7 @@ git config --global user.name "Your Name"
 git config --global user.email yourname@yourdomain.com
 ```
 
-See [Customizing Git Configuration](https://www.git-scm.com/book/en/v2/Customizing-Git-Git-Configuration) for more details. You can edit the global Git config file by running `nano ~/.gitconfig` in a terminal window. 
+See [Customizing Git Configuration](https://www.git-scm.com/book/en/v2/Customizing-Git-Git-Configuration) for more details. You can edit the global Git config file by running `nano ~/.gitconfig` in a terminal window.
 
 ## SSH Keys for GitHub/GitLab
 
@@ -218,7 +218,7 @@ See [Customizing Git Configuration](https://www.git-scm.com/book/en/v2/Customizi
 
 ## GPG Keys for signing commits
 
-Taken from https://docs.gitlab.com/ee/user/project/repository/gpg_signed_commits/index.html. 
+Taken from https://docs.gitlab.com/ee/user/project/repository/gpg_signed_commits/index.html.
 
 1. Run `gpg --full-gen-key`
 1. Choose "RSA"
@@ -226,7 +226,7 @@ Taken from https://docs.gitlab.com/ee/user/project/repository/gpg_signed_commits
 1. Choose 2y (or a timeframe of your choosing)
 1. Provide the other required inputs
 1. Run `gpg --list-secret-keys --keyid-format LONG mr@robot.sh` (replace `mr@robot.sh` with the email you used previously)
-1. Copy the GPG key ID that starts with `sec`. E.g. in `sec   rsa4096/30F2B65B9246B6CA 2017-08-18 [SC]`, the key ID is `30F2B65B9246B6CA`
+1. Copy the GPG key ID that starts with `sec`. E.g. in `sec rsa4096/30F2B65B9246B6CA 2017-08-18 [SC]`, the key ID is `30F2B65B9246B6CA`
 1. Run `gpg --armor --export 30F2B65B9246B6CA`
 1. Run `git config --global user.signingkey 30F2B65B9246B6CA`
 
