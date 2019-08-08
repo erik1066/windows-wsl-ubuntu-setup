@@ -82,7 +82,7 @@ cd /mnt/c
 sudo apt install openjdk-8-jdk-headless maven
 ```
 
-Run `javac -version` and look for `javac 1.8.0_191` (or newer) to verify success
+Run `javac -version` and look for `javac 1.8.0_222` (or newer) to verify success
 
 ## Go
 
@@ -98,17 +98,17 @@ Run `go version` and look for `go version go1.10.4 linux/amd64` (or newer) to ve
 sudo apt install python3-minimal
 ```
 
-Run `python3 -V` and look for `Python 3.6.8` (or newer) to verify success
+Run `python3 --version` and look for `Python 3.6.8` (or newer) to verify success
 
 ## NodeJS
 
 ```bash
 sudo apt install build-essential
-curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
+curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
 sudo apt install nodejs
 ```
 
-Run `npm --version` and look for `6.10.1` (or newer) to verify success
+Run `npm --version` and look for `6.10.3` (or newer) to verify success
 
 Periodically, you will want to update NPM to the latest available version. Do so by running:
 
@@ -197,6 +197,16 @@ Following the above commands will install Docker in WSL, but again, the daemon w
 1. Run `nano ~/.profile`, add `export DOCKER_HOST=tcp://0.0.0.0:2375` to the end of the file, and save
 1. Restart Ubuntu WSL
 1. Once Ubuntu WSL is restarted, type `docker run hello-world` and press **Enter**. You should see a lengthy output that says somewhere in the middle, "Hello from Docker!"
+
+## AWS CLI tools
+
+```bash
+sudo apt install awscli
+```
+
+Run `aws --version` to verify success.
+
+> AWS CLI tools can alternatively be installed and updated using `pip` instead of the central repositories. See [Install AWS CLI on Linux](https://docs.aws.amazon.com/cli/latest/userguide/install-linux.html) for instructions. The benefit of using `pip` is a more up-to-date version of the tools.
 
 ## Git configuration
 
