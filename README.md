@@ -108,7 +108,7 @@ curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
 sudo apt install nodejs
 ```
 
-Run `npm --version` and look for `6.10.3` (or newer) to verify success
+Run `npm --version` and look for `6.11.2` (or newer) to verify success
 
 Periodically, you will want to update NPM to the latest available version. Do so by running:
 
@@ -120,7 +120,6 @@ sudo npm install -g npm
 
 ```bash
 sudo apt install apt-transport-https ca-certificates
-cd ~/Downloads
 wget -q https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/packages-microsoft-prod.deb
 sudo dpkg -i packages-microsoft-prod.deb
 sudo apt update && sudo apt install dotnet-sdk-2.2 -y
