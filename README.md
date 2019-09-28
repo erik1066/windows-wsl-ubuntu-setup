@@ -122,11 +122,11 @@ sudo npm install -g npm
 sudo apt install apt-transport-https ca-certificates
 wget -q https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/packages-microsoft-prod.deb
 sudo dpkg -i packages-microsoft-prod.deb
-sudo apt update && sudo apt install dotnet-sdk-2.2 -y
+sudo apt update && sudo apt install dotnet-sdk-3.0 -y
 rm -f packages-microsoft-prod.deb
 ```
 
-Run `dotnet --version` and look for `2.2.401` (or newer) to verify success
+Run `dotnet --version` and look for `3.0.100` (or newer) to verify success
 
 ### Optional: Disable .NET Core telemetry
 
