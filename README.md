@@ -122,21 +122,20 @@ sudo npm install -g npm
 sudo apt install apt-transport-https ca-certificates
 wget -q https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/packages-microsoft-prod.deb
 sudo dpkg -i packages-microsoft-prod.deb
-sudo apt update && sudo apt install dotnet-sdk-3.0 -y
+sudo apt update && sudo apt install dotnet-sdk-3.1 -y
 rm -f packages-microsoft-prod.deb
 ```
 
-Run `dotnet --version` and look for `3.0.100` (or newer) to verify success
+Run `dotnet --version` and look for `3.1.100` (or newer) to verify success
 
 ### Optional: Disable .NET Core telemetry
 
 1. Run `nano ~/.profile`
 1. Type `export DOTNET_CLI_TELEMETRY_OPTOUT=true` at the bottom of the file
-1. Type `export DOTNET_SKIP_FIRST_TIME_EXPERIENCE=true` at the bottom of the file
 1. Save and exit
 1. Restart the WSL command prompt
 
-> Setting `DOTNET_SKIP_FIRST_TIME_EXPERIENCE` to `true` doesn't affect telemtry. It's a fix for the following warning that may appear during .NET Core compilation: "Permission denied to modify the '/usr/share/dotnet/sdk/NuGetFallbackFolder' folder."
+> You can also set `DOTNET_SKIP_FIRST_TIME_EXPERIENCE` to `true` when editing `.profile` to fix the following warning that may appear during .NET Core compiles: "Permission denied to modify the '/usr/share/dotnet/sdk/NuGetFallbackFolder' folder."
 
 ## Docker and Docker Compose
 
@@ -175,12 +174,12 @@ Running "docker --version" should display "Docker version 19.03.1, build 74b1e89
 Install Docker Compose:
 
 ```bash
-sudo curl -L "https://github.com/docker/compose/releases/download/1.24.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo curl -L "https://github.com/docker/compose/releases/download/1.25.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
 docker-compose --version
 ```
 
-Running "docker-compose --version" should display "docker-compose version 1.24.1, build 4667896b" or similar.
+Running "docker-compose --version" should display "docker-compose version 1.25.0, build 0a186604".
 
 Ensure you can run Docker commands without `sudo`:
 
