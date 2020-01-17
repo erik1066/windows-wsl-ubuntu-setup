@@ -230,7 +230,14 @@ Thus, before installing the tools with the `npm` command, follow the steps below
 1. Run `sudo apt update && sudo apt install dotnet-sdk-2.1 -y` to install the .NET Core SDK 2.1, which is a prerequisite
 1. Run `whoami` to verify your username
 1. Run `sudo chown -R yourusername: /usr/lib/node_modules`, replacing `yourusername` with the output from the `whoami` command
-1. Run `npm install -g azure-functions-core-tools`
+
+You can now install the tools using `npm` without encountering an error:
+
+```bash
+npm install -g azure-functions-core-tools
+```
+
+Be sure to install the [Azure Functions](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-azurefunctions) and [C#](https://marketplace.visualstudio.com/items?itemName=ms-vscode.csharp) extensions for Visual Studio Code.
 
 ## AWS CLI tools
 
