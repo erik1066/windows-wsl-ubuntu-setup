@@ -217,6 +217,21 @@ sudo apt-get update
 sudo apt-get install azure-cli
 ```
 
+## Azure Functions Core Tools
+
+`npm` and the .NET Core SDK 2.1 are required to work with the Azure Functions Core Tools. The Azure Functions Core Tools are correspondingly required to work with Azure Functions in Visual Studio Code. 
+
+> This section assumes you've already installed `nodejs` and `npm`. Steps to install these are provided in an earlier section of this guide.
+
+Installing the Azure Functions Core Tools is done using `npm`, but in WSL this presents a problem: The `node_modules` folder in `usr/lib` is owned by `root` and not by your account. Even using `sudo` to run `npm` will therefore fail with an error.
+
+Thus, before installing the tools with the `npm` command, follow the steps below:
+
+1. Run `sudo apt update && sudo apt install dotnet-sdk-2.1 -y` to install the .NET Core SDK 2.1, which is a prerequisite
+1. Run `whoami` to verify your username
+1. Run `sudo chown -R yourusername: /usr/lib/node_modules`, replacing `yourusername` with the output from the `whoami` command
+1. Run `npm install -g azure-functions-core-tools`
+
 ## AWS CLI tools
 
 ```bash
