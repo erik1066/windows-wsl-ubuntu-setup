@@ -141,11 +141,7 @@ Run `dotnet --version` and look for `3.1.101` (or newer) to verify success
 
 ## Docker and Docker Compose
 
-WSL is incapable of running the Docker daemon. To use Docker commands in a WSL terminal, you must send them to _Docker for Windows_ for execution. Setting up this bridge is not straightforward and poorly documented, but it can be done with just a few steps.
-
-1. Install Docker for Windows
-1. Return to the Ubuntu command prompt
-1. Run the following commands:
+Next, install the Docker CLI tools in WSL:
 
 ```bash
 sudo apt install apt-transport-https ca-certificates curl software-properties-common
@@ -171,7 +167,7 @@ sudo apt install docker-ce
 docker --version
 ```
 
-Running "docker --version" should display "Docker version 19.03.5, build 633a0ea838" or similar.
+Running "docker --version" should display "Docker version 19.03.6, build 369ce74a3c" or similar.
 
 Install Docker Compose:
 
@@ -189,7 +185,19 @@ Ensure you can run Docker commands without `sudo`:
 sudo usermod -aG docker $USER
 ```
 
-Following the above commands will install Docker in WSL, but again, the daemon will not start. Follow the instructions below to create a bridge between Docker in WSL and Docker for Windows:
+## Creating a bridge between WSL and a Docker daemon
+
+WSL is currently incapable of running the Docker daemon. The steps described in the previous section - the ones that installed Docker in WSL - will only allow you to run the Docker commands from the command line. With no daemon, those commands will only produce error messages, which is not useful.
+
+The Docker daemon can only run on a Linux server. Therefore, two things are required: 
+1. Setting up a Linux server with Docker on it
+1. Bridging WSL to the Docker daemon running on that Linux server.
+
+By far, the simplest way to achieve this is by installing _Docker for Windows_. Alternatively, you can create your own Linux-based virtual machine and use port forwarding. Both methods are described below.
+
+### Creating a bridge from WSL to Docker using Docker for Windows
+
+If you're using Docker for Windows, follow the steps below to create the bridge:
 
 1. Open the **Docker for Windows** app in Windows 10 and navigate to the **General** tab.
 1. Check the box that says **Expose daemon on tcp://localhost:2375 without TLS**. Docker for Windows will restart momentarily.
@@ -197,6 +205,46 @@ Following the above commands will install Docker in WSL, but again, the daemon w
 1. Run `nano ~/.profile`, add `export DOCKER_HOST=tcp://0.0.0.0:2375` to the end of the file, and save
 1. Restart Ubuntu WSL
 1. Once Ubuntu WSL is restarted, type `docker run hello-world` and press **Enter**. You should see a lengthy output that says somewhere in the middle, "Hello from Docker!"
+
+### Creating a bridge from WSL to Docker using a Linux VM and VirtualBox
+
+This section assumes one is using VirtualBox and already has an Ubuntu 18.04 virtual machine running.
+
+1. Install Docker and Docker Compose in your Ubuntu virtual machine. https://github.com/erik1066/pop-os-setup contains detailed instructions for how to do this.
+1. Open a terminal window in the virtual machine
+1. In the _virtual machine terminal_, run `sudo mkdir -p /etc/systemd/system/docker.service.d`
+1. In the _virtual machine terminal_, run `sudo nano /etc/systemd/system/docker.service.d/options.conf`. A Nano text editor window opens.
+1. Add the following lines to the file:
+
+```bash
+[Service]
+ExecStart=
+ExecStart=/usr/bin/dockerd -H unix:// -H tcp://0.0.0.0:2375
+```
+
+6. Press `CTRL`+`X` to exit the Nano text editor and save when prompted.
+1. In the _virtual machine terminal_, run `sudo systemctl daemon-reload`
+1. In the _virtual machine terminal_, run `sudo systemctl restart docker`
+1. Back in Windows, open the **VirtualBox Manager** window, select your VM from the list, and then open the **Settings** panel for the VM
+1. Navigate to the **Network** tab
+1. Under **Attached to**, ensure "NAT" is selected
+1. Press **Advanced**. Additional networking options appear.
+1. Select **Port Forwarding**. A list of port forwarding rules appears. (The list should be empty unless you've previously set up port forwarding for your VM.)
+1. Select the green **New Port Forwarding Rule** button. A new port forwarding rule appears in the list.
+1. Use the following options for the rule values:
+```
+host ip:    0.0.0.0
+host port:  2375
+guest ip:   10.0.2.15
+guest port: 2375
+```
+16. Press **OK** to save
+1. Press **OK** again in the **Network** tab
+1. Back in the _WSL terminal_, Run `nano ~/.profile`, add `export DOCKER_HOST=tcp://0.0.0.0:2375` to the end of the file, and save
+1. Restart Ubuntu WSL
+1. Once Ubuntu WSL is restarted, type `docker run hello-world` and press **Enter**. You should see a lengthy output that says somewhere in the middle, "Hello from Docker!"
+
+> Note that the 10.0.2.15 IP address isn't guaranteed to be the same on your virtual machine. You can verify the VM's actual IP address by opening a terminal window in the VM and running `ifconfig`.
 
 ## Azure CLI tools
 
