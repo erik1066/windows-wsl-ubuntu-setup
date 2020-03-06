@@ -1,6 +1,6 @@
 # Windows 10 and Ubuntu on Windows Subsystem for Linux (WSL) Setup Guide for Web App Developers
 
-Instructions to make Windows 10 with the [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/about) (WSL) setup fast and efficient for developing web apps in Go, C# (.NET Core), Java, Python, and NodeJS, and web front-ends in React. This guide uses Ubuntu 18.04 as the OS running within WSL.
+Instructions to make Windows 10 with the [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/about) (WSL) setup fast and efficient for developing web apps in Go, Rust, C# (.NET Core), Java, Python, and NodeJS, and web front-ends in React. This guide uses Ubuntu 18.04 as the OS running within WSL.
 
 > This guide is written for version 1 of WSL. The setup process described herein has not been tested using WSL2. See [About WSL 2](https://docs.microsoft.com/en-us/windows/wsl/wsl2-about) for more information about the differences between WSL1 and WSL2.
 
@@ -63,7 +63,8 @@ ca-certificates \
 curl \
 software-properties-common \
 apache2-utils \
-make
+make \
+gnupg2
 ```
 
 ## Change Colors
@@ -327,20 +328,37 @@ See [Customizing Git Configuration](https://www.git-scm.com/book/en/v2/Customizi
 
 ## GPG Keys for signing commits
 
-Taken from https://docs.gitlab.com/ee/user/project/repository/gpg_signed_commits/index.html.
+Taken and adapted from https://help.github.com/en/github/authenticating-to-github/generating-a-new-gpg-key.
 
-1. Run `gpg --full-gen-key`
-1. Choose "RSA"
+1. Run `gpg2 --full-generate-key`
+1. Choose the default algorithms when prompted (should be "RSA and RSA")
 1. Choose 4096 bits
 1. Choose 2y (or a timeframe of your choosing)
-1. Provide the other required inputs
-1. Run `gpg --list-secret-keys --keyid-format LONG mr@robot.sh` (replace `mr@robot.sh` with the email you used previously)
+1. Provide the other required inputs. _Be sure to write down your GPG password_.
+1. Run `gpg2 --list-secret-keys --keyid-format LONG mr@robot.sh` (replace `mr@robot.sh` with the email you used previously)
 1. Copy the GPG key ID that starts with `sec`. E.g. in `sec rsa4096/30F2B65B9246B6CA 2017-08-18 [SC]`, the key ID is `30F2B65B9246B6CA`
-1. Run `gpg --armor --export 30F2B65B9246B6CA`
+1. Run `gpg2 --armor --export 30F2B65B9246B6CA`. (This command displays the ASCII output you need to enter in your GitHub user account settings to sign commits with this key. See [Adding a new GPG key to your GitHub account](https://help.github.com/en/github/authenticating-to-github/adding-a-new-gpg-key-to-your-github-account) for instructions.)
 1. Run `git config --global user.signingkey 30F2B65B9246B6CA`
+1. Run `git config --global gpg.program gpg2`
 
 To sign commits, the only difference is the addition of the `-S` flag:
 
 ```bash
 git commit -S -m "My commit msg"
 ```
+
+You can tell Git to always sign commits without your needing to explicitly include the `-S` flag:
+```bash
+git config --global commit.gpgsign true
+```
+
+> Signing commits by-default may be a good idea if you're working for an organization that requires verified commits as part of their security policy.
+
+You can test whether `gpg2` itself is working by running the command below:
+
+```bash
+echo "test" | gpg2 --clearsign
+```
+
+
+**Troubleshooting:** If you get the error message `Inappropriate ioctl for device` when trying to sign a git commit, run `export GPG_TTY=$(tty)` and try again. If running this command solves the problem and you're able to sign the commit successfully, then you'll need to add `export GPG_TTY=$(tty)` as a command that runs on WSL session startup. Do this by running `nano ~/.profile` to launch the Nano text editor and then add `export GPG_TTY=$(tty)` to the bottom of the file. Save when prompted and exit Nano.

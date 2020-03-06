@@ -14,7 +14,8 @@ curl \
 software-properties-common \
 apache2-utils \
 awscli \
-make 
+make \
+gnupg2
 
 curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
 sudo apt install -y nodejs
