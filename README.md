@@ -94,6 +94,16 @@ sudo apt install golang-go
 
 Run `go version` and look for `go version go1.10.4 linux/amd64` (or newer) to verify success
 
+## Rust
+
+```bash
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+```
+
+Restart your WSL terminal session, run `rustc --version`, and look for `rustc 1.41.1 (f3e1a954d 2020-02-24)` (or newer) to verify success.
+
+> Alternatively, you may run `sudo apt install cargo`.
+
 ## Python
 
 ```bash
