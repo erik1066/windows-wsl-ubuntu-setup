@@ -1,6 +1,6 @@
-# Windows 10 and Ubuntu on Windows Subsystem for Linux (WSL) Setup Guide for Web App Developers
+# Windows 10 and Ubuntu on Windows Subsystem for Linux (WSL) Setup Guide for Software Developers
 
-Instructions to make Windows 10 with the [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/about) (WSL) setup fast and efficient for developing web apps in Go, Rust, C# (.NET Core), Java, Python, and NodeJS, and web front-ends in React. This guide uses Ubuntu 18.04 as the OS running within WSL.
+Instructions to make Windows 10 with the [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/about) (WSL) setup fast and efficient for developing software in Go, Rust, C# (.NET Core), Java, Python, and NodeJS, and web front-ends in React. This guide uses Ubuntu 18.04 as the OS running within WSL.
 
 > This guide is written for version 1 of WSL. The setup process described herein has not been tested using WSL2. See [About WSL 2](https://docs.microsoft.com/en-us/windows/wsl/wsl2-about) for more information about the differences between WSL1 and WSL2.
 
@@ -98,12 +98,24 @@ Run `go version` and look for `go version go1.10.4 linux/amd64` (or newer) to ve
 ## Rust
 
 ```bash
+sudo apt install cargo
+```
+
+Run `rustc --version` to verify success.
+
+**Alternative Rust installation:** Instead of using `apt`, you can use `curl` to download and install Rust:
+
+```bash
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 ```
 
 Restart your WSL terminal session, run `rustc --version`, and look for `rustc 1.41.1 (f3e1a954d 2020-02-24)` (or newer) to verify success.
 
-> Alternatively, you may run `sudo apt install cargo`.
+The `curl` version of installing Rust will install a newer version than what is found in the Ubuntu package manager. It also includes `rustup`, a CLI utility for keeping your Rust installation up-to-date. You use `rustup` like so:
+
+```bash
+rustup update
+```
 
 ## Python
 
