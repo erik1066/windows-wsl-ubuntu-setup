@@ -133,7 +133,7 @@ curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
 sudo apt install nodejs
 ```
 
-Run `npm --version` and look for `6.13.7` (or newer) to verify success
+Run `npm --version` and look for `6.14.2` (or newer) to verify success
 
 Periodically, you will want to update NPM to the latest available version. Do so by running:
 
@@ -151,7 +151,7 @@ sudo apt update && sudo apt install dotnet-sdk-3.1 -y
 rm -f packages-microsoft-prod.deb
 ```
 
-Run `dotnet --version` and look for `3.1.102` (or newer) to verify success
+Run `dotnet --version` and look for `3.1.200` (or newer) to verify success
 
 ### Optional: Disable .NET Core telemetry
 
