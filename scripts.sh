@@ -1,7 +1,13 @@
 #!/bin/bash
 
+# ------------------------------------
+# Install updates:
+# ------------------------------------
 sudo apt update && sudo apt dist-upgrade -y
 
+# ------------------------------------
+# Install dev tools:
+# ------------------------------------
 sudo apt install -y \
 openjdk-8-jdk-headless \
 maven \
@@ -17,10 +23,16 @@ awscli \
 make \
 gnupg2
 
+# ------------------------------------
+# Install NodeJS:
+# ------------------------------------
 curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
 sudo apt install -y nodejs
 sudo npm install -g npm
 
+# ------------------------------------
+# Install .NET Core and turn off .NET Core telemetry:
+# ------------------------------------
 wget -q https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/packages-microsoft-prod.deb
 sudo dpkg -i packages-microsoft-prod.deb
 sudo apt update && sudo apt install dotnet-sdk-3.1 -y
@@ -32,6 +44,9 @@ echo "export DOCKER_HOST=tcp://0.0.0.0:2375" >> ~/.profile
 
 echo "fs.inotify.max_user_watches=10000000" | sudo tee -a /etc/sysctl.conf
 
+# ------------------------------------
+# Install Docker and Docker Compose:
+# ------------------------------------
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 sudo apt-key fingerprint 0EBFCD88
 
@@ -52,3 +67,12 @@ sudo chmod +x /usr/local/bin/docker-compose
 docker-compose --version
 
 sudo usermod -aG docker $USER
+
+
+# ------------------------------------
+# Install GitHub CLI tools:
+# ------------------------------------
+sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0
+sudo apt-add-repository https://cli.github.com/packages
+sudo apt update
+sudo apt install gh
