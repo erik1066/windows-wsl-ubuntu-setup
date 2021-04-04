@@ -1,8 +1,8 @@
-# Windows 10 and Ubuntu on Windows Subsystem for Linux (WSL) Setup Guide for Software Developers
+# Windows 10 and Ubuntu 20.04 on Windows Subsystem for Linux (WSL) v1 Setup Guide for Software Developers
 
-Instructions to make Windows 10 with the [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/about) (WSL) setup fast and efficient for developing software in Go, Rust, C# (.NET Core), Java, Python, and NodeJS, and web front-ends in React. This guide uses Ubuntu 18.04 as the OS running within WSL.
+Instructions to setup and install Windows 10 with the [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/about) (WSL) and Ubuntu 20.04. This guide includes steps for installing Go, Rust, C# (.NET Core), Java, Python, NodeJS, React tooling, Docker and Docker Compose, and various CLI tools for AWS, Azure, and GitHub. Additionally, this guide shows how to create a bridge between WSLv1 and a separate Linux-based VM so that `docker` commands running in WSLv1 will function.
 
-> This guide is written for version 1 of WSL. The setup process described herein has not been tested using WSL2. See [About WSL 2](https://docs.microsoft.com/en-us/windows/wsl/wsl2-about) for more information about the differences between WSL1 and WSL2.
+> This guide is written for version 1 of WSL. The setup process described herein has not been tested using WSL2. See [About WSL 2](https://docs.microsoft.com/en-us/windows/wsl/wsl2-about) for more information about the differences between WSL1 and WSL2. You can check what version of WSL you are on by opening a Windows PowerShell Terminal and running `wsl --list --verbose`.
 
 ## Turn on Windows Subsystem for Linux
 
@@ -21,7 +21,7 @@ WSL is not enabled in Windows 10 by default. To enable it:
 
 The [Windows 10 App Store](https://www.microsoft.com/en-us/p/ubuntu/9nblggh4msv6) is the most straightforward way to install Ubuntu in WSL. Some organizations disallow use of the app store on their Windows machines, in which case you must install Ubuntu manually:
 
-1. After restarting your PC from the previous set of steps, visit https://docs.microsoft.com/en-us/windows/wsl/install-manual and select the Ubuntu 18.04 distro. Alternatively, you can download the Ubuntu 18.04 distro at https://aka.ms/wsl-ubuntu-1804.
+1. After restarting your PC from the previous set of steps, visit https://docs.microsoft.com/en-us/windows/wsl/install-manual and select the Ubuntu 20.04 distro. Alternatively, you can download the Ubuntu 20.04 distro at https://aka.ms/wslubuntu2004.
 1. After the download is complete, run the `.appx` file that was downloaded. An installer window will appear. NOTE: _Whatever directory you run the installer from is where WSL will be installed to. You cannot change this directory post-installation._
 
 > If the `.appx` file appears un-runnable in Windows, see the "Manual Appx unpackaging and installation" portion of this guide. Otherwise, continue with step 3 below.
@@ -55,7 +55,7 @@ Next, install some common tools you'll need later:
 
 ```bash
 sudo apt install \
-openjdk-8-jdk-headless \
+openjdk-11-jdk-headless \
 maven \
 build-essential \
 apt-transport-https \
@@ -69,7 +69,9 @@ gnupg2
 
 ## Change Colors
 
-Users interact with WSL through the Windows 10 Command Prompt. To change the colors for the Command Prompt, left-click on the Ubuntu icon on the top-left corner of the WSL window and select **Properties** > **Colors**.
+By default, the way to interact with WSL is through the Windows 10 Command Prompt. To change the colors for the Command Prompt, left-click on the Ubuntu icon on the top-left corner of the WSL window and select **Properties** > **Colors**.
+
+An open source alternative to Windows Command Prompt is available from Microsoft: The [Windows Terminal](https://github.com/Microsoft/Terminal). Changing text colors in the Windows Terminal is currently done using a Json configuration file.
 
 ## Access the C drive from Ubuntu
 
@@ -82,10 +84,16 @@ cd /mnt/c
 ## Java and Maven
 
 ```bash
-sudo apt install openjdk-8-jdk-headless maven
+sudo apt install openjdk-11-jdk-headless maven
 ```
 
-Run `javac -version` and look for `javac 1.8.0_222` (or newer) to verify success
+Run `javac -version` and look for the following output to verify success:
+
+```
+openjdk version "11.0.10" 2021-01-19
+OpenJDK Runtime Environment (build 11.0.10+9-Ubuntu-0ubuntu1.20.04)
+OpenJDK 64-Bit Server VM (build 11.0.10+9-Ubuntu-0ubuntu1.20.04, mixed mode, sharing)
+```
 
 ## Go
 
@@ -93,7 +101,7 @@ Run `javac -version` and look for `javac 1.8.0_222` (or newer) to verify success
 sudo apt install golang-go
 ```
 
-Run `go version` and look for `go version go1.10.4 linux/amd64` (or newer) to verify success
+Run `go version` and look for `go version go1.13.8 linux/amd64` (or newer) to verify success
 
 ## Rust
 
@@ -123,22 +131,34 @@ rustup update
 sudo apt install python3-minimal
 ```
 
-Run `python3 --version` and look for `Python 3.6.9` (or newer) to verify success
+Run `python3 --version` and look for `Python 3.8.5` (or newer) to verify success
 
 ## NodeJS
 
+The quick way to install NodeJS 14 (LTS):
+
 ```bash
-sudo apt install build-essential
-curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
-sudo apt install nodejs
+curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+sudo apt install -y nodejs npm
 ```
 
-Run `npm --version` and look for `6.14.8` (or newer) to verify success
+Run `node --version` and look for `v14.16.0` (or newer) to verify success.
 
-Periodically, you will want to update NPM to the latest available version. Do so by running:
+### Optional: Install NodeJS with a manual inspection of the shell script
+
+If you wish to inspect the shell script before running it:
 
 ```bash
-sudo npm install -g npm
+cd ~
+curl -sL https://deb.nodesource.com/setup_14.x -o nodesource_setup.sh
+nano nodesource_setup.sh
+```
+
+Run the following if you're satisfied with the script:
+
+```bash
+sudo bash nodesource_setup.sh
+sudo apt install nodejs
 ```
 
 ## .NET Core
@@ -147,11 +167,16 @@ sudo npm install -g npm
 sudo apt install apt-transport-https ca-certificates
 wget -q https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/packages-microsoft-prod.deb
 sudo dpkg -i packages-microsoft-prod.deb
-sudo apt update && sudo apt install dotnet-sdk-3.1 -y
+sudo apt update && sudo apt install dotnet-sdk-3.1 dotnet-sdk-5.0 -y
 rm -f packages-microsoft-prod.deb
 ```
 
-Run `dotnet --version` and look for `3.1.402` (or newer) to verify success
+Run `dotnet --list-sdks` and look for the following output to verify success:
+
+```
+3.1.407 [/usr/share/dotnet/sdk]
+5.0.201 [/usr/share/dotnet/sdk]
+```
 
 ### Optional: Disable .NET Core telemetry
 
@@ -190,17 +215,17 @@ sudo apt install docker-ce
 docker --version
 ```
 
-Running "docker --version" should display "Docker version 19.03.6, build 369ce74a3c" or similar.
+Running "docker --version" should display "Docker version 20.10.5, build 55c4c88" or similar.
 
 Install Docker Compose:
 
 ```bash
-sudo curl -L "https://github.com/docker/compose/releases/download/1.25.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo curl -L "https://github.com/docker/compose/releases/download/1.28.6/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
 docker-compose --version
 ```
 
-Running "docker-compose --version" should display "docker-compose version 1.25.0, build 0a186604".
+Running `docker-compose --version` should display `docker-compose version 1.28.6, build 5db8d86f`.
 
 Ensure you can run Docker commands without `sudo`:
 
@@ -210,13 +235,14 @@ sudo usermod -aG docker $USER
 
 ## Creating a bridge between WSL and a Docker daemon
 
-WSL is currently incapable of running the Docker daemon. The steps described in the previous section - the ones that installed Docker in WSL - will only allow you to run the Docker commands from the command line. With no daemon, those commands will only produce error messages, which is not useful.
+WSL version 1 is incapable of running the Docker daemon. The steps described in the previous section - the ones that installed Docker in WSL - will only allow you to run `docker` commands from the command line. Without the Docker daemon, however, those commands will not be capable of anything more than displaying error messages.
 
-The Docker daemon can only run on a Linux server. Therefore, two things are required: 
-1. Setting up a Linux server with Docker on it
-1. Bridging WSL to the Docker daemon running on that Linux server.
+The Docker daemon can only run on a Linux-based operating system. Therefore, two things are required: 
 
-By far, the simplest way to achieve this is by installing _Docker for Windows_. Alternatively, you can create your own Linux-based virtual machine and use port forwarding. Both methods are described below.
+1. Setting up a Linux-based virtual machine with Docker on it
+1. Bridging WSL to the Docker daemon running on that Linux virtual machine
+
+By far, the simplest way to achieve this is by installing _Docker for Windows_. Docker for Windows creates its own Linux-based VM using Microsoft's Hyper-V hypervisor. Alternatively, you can create your own Linux-based virtual machine using the hypervisor of your choice and use port forwarding. Both methods are described below.
 
 ### Creating a bridge from WSL to Docker using Docker for Windows
 
@@ -231,7 +257,7 @@ If you're using Docker for Windows, follow the steps below to create the bridge:
 
 ### Creating a bridge from WSL to Docker using a Linux VM and VirtualBox
 
-This section assumes one is using VirtualBox and already has an Ubuntu 18.04 virtual machine running.
+This section assumes one is using VirtualBox and already has an Ubuntu 20.04 virtual machine running.
 
 1. Install Docker and Docker Compose in your Ubuntu virtual machine. https://github.com/erik1066/pop-os-setup contains detailed instructions for how to do this.
 1. Open a terminal window in the virtual machine
@@ -271,22 +297,29 @@ guest port: 2375
 
 ## Azure CLI tools
 
-See [Install Azure CLI with apt](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-apt?view=azure-cli-latest) for further information.
-
 ```bash
-sudo apt-get install apt-transport-https lsb-release software-properties-common dirmngr -y
+# Get packages needed for the install process:
+sudo apt-get update
+sudo apt-get install ca-certificates curl apt-transport-https lsb-release gnupg
 
+# Download and install the Microsoft signing key:
+curl -sL https://packages.microsoft.com/keys/microsoft.asc |
+    gpg --dearmor |
+    sudo tee /etc/apt/trusted.gpg.d/microsoft.gpg > /dev/null
+
+# Add the Azure CLI software repository:
 AZ_REPO=$(lsb_release -cs)
-echo "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ $AZ_REPO main" | \
+echo "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ $AZ_REPO main" |
     sudo tee /etc/apt/sources.list.d/azure-cli.list
 
-sudo apt-key --keyring /etc/apt/trusted.gpg.d/Microsoft.gpg adv \
-     --keyserver packages.microsoft.com \
-     --recv-keys BC528686B50D79E339D3721CEB3E94ADBE1229CF
-
+# Update repository information and install the azure-cli package:
 sudo apt-get update
 sudo apt-get install azure-cli
 ```
+
+Verify success by running `az --version` and checking that `azure-cli 2.21.0` (or newer) appears somewhere in the output. Additionally, the output should indicate that `Your CLI is up-to-date`.
+
+> See [Install Azure CLI with apt](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-apt?view=azure-cli-latest) for further information.
 
 ## Azure Functions Core Tools
 
@@ -312,13 +345,17 @@ Be sure to install the [Azure Functions](https://marketplace.visualstudio.com/it
 
 ## AWS CLI tools
 
+The following script installs v2 of the AWS CLI tools:
+
 ```bash
-sudo apt install awscli
+sudo apt install -y unzip
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+sudo ./aws/install
 ```
 
-Run `aws --version` to verify success.
+Run `aws --version` and check for `aws-cli/2.1.34 Python/3.8.8 Linux/4.4.0-19041-Microsoft exe/x86_64.ubuntu.20 prompt/off` to verify success.
 
-> AWS CLI tools can alternatively be installed and updated using `pip` instead of the central repositories. See [Install AWS CLI on Linux](https://docs.aws.amazon.com/cli/latest/userguide/install-linux.html) for instructions. The benefit of using `pip` is a more up-to-date version of the tools.
+> See https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-linux.html for additional information.
 
 ## GitHub CLI tools
 
@@ -328,6 +365,8 @@ sudo apt-add-repository https://cli.github.com/packages
 sudo apt update
 sudo apt install gh
 ```
+
+> See https://github.com/cli/cli/blob/trunk/docs/install_linux.md for troubleshooting tips.
 
 ## Git configuration
 
@@ -383,3 +422,5 @@ echo "test" | gpg2 --clearsign
 
 
 **Troubleshooting:** If you get the error message `Inappropriate ioctl for device` when trying to sign a git commit, run `export GPG_TTY=$(tty)` and try again. If running this command solves the problem and you're able to sign the commit successfully, then you'll need to add `export GPG_TTY=$(tty)` as a command that runs on WSL session startup. Do this by running `nano ~/.profile` to launch the Nano text editor and then add `export GPG_TTY=$(tty)` to the bottom of the file. Save when prompted and exit Nano.
+
+Alternatively, you can use Windows Terminal instead of the Windows Command Prompt. Doing so solves the `Inappropriate ioctl for device` problem without requiring the above changes to `.profile`.
